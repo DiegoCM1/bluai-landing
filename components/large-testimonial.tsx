@@ -15,7 +15,7 @@ const testimonials = [
   },
   {
     text: `“BluEye is revolutionizing disaster response with its real-time, offline-ready technology. This is what the future of safety looks like.”`,
-    name: "Ana López",
+    name: "Roberto Cabezas",
     role: "Emergency Response Expert",
     img: TestimonialImg,
     link: "#",

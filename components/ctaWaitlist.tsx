@@ -41,7 +41,7 @@ export default function CtaWithWaitlist() {
               Become part of the mission to protect millions.
             </h2>
 
-            <div className="flex flex-col gap-12 md:flex-row md:justify-between md:items-start">
+            <div className="flex flex-col gap-12 md:flex-row md:justify-center lg:justify-between">
               {/* Waitlist Column */}
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-2xl font-semibold mb-2">
@@ -55,7 +55,7 @@ export default function CtaWithWaitlist() {
                 <form
                   action="https://formsubmit.co/BluEyeHurricaneAlerts@gmail.com"
                   method="POST"
-                  className="flex flex-col sm:flex-row justify-center md:justify-start items-center gap-4 max-w-2xl mx-auto md:mx-0"
+                  className="flex flex-col justify-start lg:flex-row  md:justify-start items-center gap-4 max-w-2xl mx-auto md:mx-0"
                 >
                   <input
                     type="email"
@@ -74,13 +74,13 @@ export default function CtaWithWaitlist() {
                   <input
                     type="hidden"
                     name="_next"
-                    value="https://blueyes-landing-l2ty.vercel.app/thanks"
+                    value="https://blueye-landing.vercel.app/thanks"
                   />
                 </form>
               </div>
 
               {/* Divider on mobile */}
-              <div className="block lg:hidden border-t border-gray-200 my-2 w-full" />
+              <div className="block md:hidden lg:hidden border-t border-gray-200 my-2 w-full" />
 
               {/* Get In Touch Column */}
               <div className="flex-1 text-center md:text-left">
