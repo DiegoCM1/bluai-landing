@@ -1,68 +1,116 @@
 export const metadata = {
   title: "Política de Privacidad – Bluai",
-  description: "Política de privacidad de la aplicación Bluai.",
+  description: "Aviso de privacidad de la aplicación Bluai.",
 };
 
 export default function PrivacyPage() {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-20 md:py-20">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-16 md:py-20">
 
-        {/* Header */}
         <div className="mb-12 border-b border-gray-200 pb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            Política de Privacidad
+            Aviso de Privacidad
           </h1>
           <p className="text-sm text-gray-600">
-            Última actualización: [FECHA]
+            Última actualización: 25 de abril de 2026
           </p>
         </div>
 
-        {/* Sections */}
         <div className="space-y-10">
 
           <div>
-            <h2 className="text-xl font-medium text-gray-900 mb-3">
-              1. Información que recopilamos
-            </h2>
             <p className="text-gray-600 leading-relaxed">
-              [CONTENIDO]
+              Bluai es responsable del tratamiento de los datos personales recabados a través de su sitio web y aplicación móvil.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-medium text-gray-900 mb-3">
-              2. Cómo usamos tu información
+              Datos que recabamos
+            </h2>
+            <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <li>Nombre</li>
+              <li>Correo electrónico</li>
+              <li>Ubicación geográfica (en caso de activar funciones de geolocalización)</li>
+              <li>Datos de uso dentro de la plataforma</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-medium text-gray-900 mb-3">
+              Finalidad del tratamiento
+            </h2>
+            <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <li>Proporcionar servicios de prevención, alertas y notificaciones personalizadas</li>
+              <li>Mejorar la experiencia del usuario mediante análisis de uso</li>
+              <li>Enviar información relevante sobre riesgos, eventos o servicios</li>
+              <li>Gestión de cuentas y membresías</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-medium text-gray-900 mb-3">
+              Geolocalización
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              [CONTENIDO]
+              Bluai podrá acceder a la ubicación del usuario únicamente con su consentimiento, con el fin de ofrecer alertas y notificaciones relevantes según su ubicación.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-medium text-gray-900 mb-3">
-              3. Terceros
+              Uso de cookies
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              [CONTENIDO]
+              Este sitio utiliza cookies y tecnologías similares para mejorar la experiencia del usuario y analizar el comportamiento dentro de la plataforma.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-medium text-gray-900 mb-3">
-              4. Eliminación de cuenta
+              Transferencia de datos
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              [CONTENIDO]
+              Bluai no venderá ni compartirá datos personales con terceros sin consentimiento, salvo obligación legal.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-medium text-gray-900 mb-3">
-              5. Contacto
+              Derechos ARCO
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              [CONTENIDO]
+              El usuario puede acceder, rectificar o eliminar sus datos enviando una solicitud a:{" "}
+              <a
+                href="mailto:BluEyeHurricaneAlerts@gmail.com"
+                className="text-blue-600 hover:underline"
+              >
+                BluEyeHurricaneAlerts@gmail.com
+              </a>
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-medium text-gray-900 mb-3">
+              Cambios
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              Bluai se reserva el derecho de modificar este aviso en cualquier momento.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-medium text-gray-900 mb-3">
+              Contacto
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              <a
+                href="mailto:blueyehurricanealerts@gmail.com"
+                className="text-blue-600 hover:underline"
+              >
+                blueyehurricanealerts@gmail.com
+              </a>
             </p>
           </div>
 
