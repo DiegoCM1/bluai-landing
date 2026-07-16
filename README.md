@@ -1,123 +1,109 @@
-# 🌊 BluEye — AI-Powered Hurricane Early Warning System
+# Bluai — Landing page
 
-**BluEye** is the next-generation, AI-driven platform to protect lives before, during, and after hurricanes — delivering personalized alerts, offline survival tools, and real-time data when you need it most.
+Marketing landing page for **Bluai**, a hurricane/disaster preparedness app
+(AI guidance, family geolocation and official alerts).
 
-> Built for coastal communities. Powered by artificial intelligence. Designed to save lives.
+Built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**,
+**GSAP** (scroll animations) and **Three.js** (the animated contact backdrop).
 
----
+## Getting started
 
-## 🚀 Key Features
+```bash
+npm install
+npm run dev      # http://localhost:3000
+```
 
-- **Real-Time Hurricane Tracking**  
-  Get live alerts based on official sources and your exact location and risk zone.
+Other scripts:
 
-- **Offline Emergency Mode**  
-  Stay safe even without internet — access shelter maps, survival strategies, and AI-driven advice offline.
+```bash
+npm run build    # production build
+npm run start    # serve the production build
+npm run lint     # ESLint
+```
 
-- **Adaptive AI Guidance**  
-  BluEye’s AI adjusts recommendations based on your current conditions — before, during, and after the hurricane.
+## Project structure
 
-- **Crowdsourced Safety Map**  
-  Share and view real-time updates from other users about flooded areas, blocked roads, and safe zones.
+```
+app/                 App Router entry (layout, page, global styles)
+components/
+  layout/            Header, Footer
+  sections/          One file per page section (Hero, Stats, Membership, ...)
+  ui/                Reusable pieces (GlassCard, PriceCard, PreventionCard, ...)
+  fx/                Animation/effect components (see below)
+lib/                 gsap setup, in-view hook, and all site copy (content.ts)
+public/assets/       Images (logo, photos, store badges, social icons)
+```
 
-- **Stress-Resilient Communication**  
-  In high-stress moments, BluEye provides clear, calm support to help users make fast, smart decisions.
+### Section order
 
-- **Scalable Global Vision**  
-  Starting in Mexico — BluEye is engineered for rapid deployment across hurricane-affected coastal regions worldwide.
+Header → Hero → Reality → Stats → Membership → Prevention → Video → Contact →
+Community CTA → Footer.
 
----
+### Effects (`components/fx/`)
 
-## 🧠 Technology Stack
+- **CountUp** — statistics count up when scrolled into view.
+- **LiquidGradient** — animated WebGL (Three.js) gradient behind the contact section.
+- **LiquidGlass / GlassDefs** — frosted "liquid glass" surfaces used by cards and form fields.
+- **MobileParallax** — decorative scroll-driven lines, mounted **only on mobile**.
+- **Reveal** — fade-up entrance animation used throughout.
 
-- **React Native** — Cross-platform mobile development for iOS and Android, built with modern React 19 features.
-- **NativeWindCSS (Tailwind CSS for React Native)** — Utility-first styling framework for blazing-fast, responsive UI across all screen sizes.
-- **Meta Llama 3.2 via Ollama** — Local AI model execution for fast, reliable guidance
-- **OpenWeather API** — Hyperlocal real-time storm and weather data
-- **NOAA & NHC Feeds** — Official hurricane tracking and forecast data
-- **Vercel** — Global CDN and instant deployment infrastructure
-- **FormSubmit** — Secure, simple early-access email collection system
+All effects respect `prefers-reduced-motion`.
 
----
+## Location-based hero
 
-### 🧠 AI & Backend Infrastructure
+The hero background adapts to the visitor's **geographic region in Mexico**
+(4 regions from the reference map → a representative city scene, calm + hurricane):
 
-- **Python 3.11+** — Core backend and AI logic language.
-- **FastAPI** — Ultra-fast Python framework for building asynchronous APIs that serve AI responses in real time.
-- **Meta Llama 3.2 via Ollama** — On-device or local inference of the Llama model, powering personalized chatbot and decision guidance (offline and online).
-- **LangChain** — Framework for prompt orchestration and tool chaining in complex AI flows.
-- **Hugging Face Transformers** — Model integration and experimentation for fallback or advanced capabilities.
-- **Pandas & NumPy** — Structured data handling and preprocessing for emergency prediction pipelines.
-- **OpenWeather API** — Real-time, location-based storm and climate data.
-- **NOAA & NHC Data Feeds** — Trusted public data from the National Hurricane Center, integrated for alert accuracy.
-- **Vector Database (e.g., ChromaDB / FAISS)** — Used to store context, past queries, or nearby emergency data points.
+- 🔵 Noroeste / Occidente → **Los Cabos**
+- 🔴 Noreste, Centro y Este → **Veracruz**
+- 🟢 Sur (Pacífico) → **Acapulco**
+- 🟣 Península de Yucatán → **Playa del Carmen**
 
+Detection (`lib/region.ts` → `detectRegion()`) runs in two tiers:
 
----
+1. **`/api/region`** (primary) — a route handler that reads the hosting/CDN
+   geo headers (AWS CloudFront, Vercel, Cloudflare). No third party, no limits.
+   Returns `null` on local dev or a fully static export.
+2. **geojs.io** (fallback) — a keyless, HTTPS, CORS-enabled geo-IP service
+   called from the browser when the route returns nothing.
 
-## 🌐 Strategic Integrations
+If both fail or the visitor is outside Mexico, `DEFAULT_REGION` is used. The
+state → region mapping (codes + names) lives in the same file.
 
-| Organization | Purpose |
-|:--|:--|
-| **Meta (Llama 3.2)** | AI-powered personalized emergency guidance |
-| **OpenWeather** | Real-time weather intelligence |
-| **NOAA / NHC** | Hurricane tracking and prediction |
-| **Gobierno de México** | National emergency data and alignment with CONAGUA & Protección Civil |
-| **Ollama** | Private, fast model serving infrastructure |
-| **Vercel** | Edge-based deployment for worldwide availability |
+> Tier 2 sends the visitor's IP to geojs.io — for a no-third-party setup, deploy
+> on a platform that provides viewer-geo headers so tier 1 resolves it. Many
+> geo-IP APIs block CORS on their free tier (e.g. ipwho.is); geojs.io allows
+> browser calls. On CloudFront, whitelist the `CloudFront-Viewer-Country*`
+> headers in the cache/origin-request policy.
 
----
+On desktop the hero is a **split**: left = calm scene, right = hurricane. Hovering
+a side expands it and emphasizes that side's cards (the card title and body reveal
+character-by-character via `CharReveal`). The phone (`components/ui/StaticPhone.tsx`)
+is static — it shows the Bluai logo, sits flush with the bottom edge of the hero, and
+does not animate. The navbar shows a device-appropriate store badge on mobile
+(`useDevice`: iOS → App Store, Android → Google Play) and both badges on desktop.
 
-## 🎯 Why BluEye?
+## Editing content
 
-- **Milliseconds Matter:** BluEye helps communities act faster when every second can change outcomes.
-- **Built for the Real World:** Offline capabilities ensure you stay safe even during network outages.
-- **Human-Centered:** Designed to reduce panic, confusion, and decision fatigue with smart AI prompts.
-- **Scalable by Design:** BluEye’s framework allows fast replication across global coastal areas.
+Almost all text and structured data (nav, hero features, stats, plans,
+prevention cards, socials, footer links) lives in **`lib/content.ts`** — edit
+there rather than in the section components.
 
----
+## Placeholders to replace
 
-## 📈 Roadmap Highlights
+These were intentionally left as placeholders, ready to wire up:
 
-- 🌐 Full Offline Mode with Progressive Web App (PWA) Support
-- 🛰️ Integration of Satellite-Based Disaster Intelligence
-- 📍 Dynamic Risk Heatmaps Using Crowdsourced and IoT Data
-- 🤖 Smarter AI Stress-Adaptive Communication Model
-- 🛡️ Direct SOS Beacon Activation from Mobile Devices
+- **Links** (`href="#"`): navigation, social networks, store badges and footer/legal links.
+- **Contact form** (`components/sections/Contact.tsx`): currently front-end validation only.
+  Connect it to your email service / API where the `TODO` comment is.
+- **Newsletter form** (`components/ui/NewsletterForm.tsx`): submit is a no-op.
+- **Video** (`components/sections/Video.tsx`): styled player placeholder — swap in the real
+  `<video>` source or embed.
 
----
+> Reminder: keep any API keys / secrets in environment variables, never in the code.
 
-## 📢 Join Us
+## Theme
 
-**BluEye is building the future of disaster resilience.**
-
-- [🔗 Early Access Waitlist — Join the Movement](https://blueyes-landing-l2ty.vercel.app/#waitlist)
-- [📬 Want to Invest, Partner, or Contribute? Contact Us](https://blueyes-landing-l2ty.vercel.app/#contact)
-
----
-
-## 📜 License
-
-This project is currently under **private early-stage development**.  
-All rights reserved © BluEye 2025.
-
-(For open collaboration inquiries, please contact the BluEye team.)
-
----
-
-## ⚡ Powered by Vision.  
-## 🌊 Built for Resilience.  
-## 🔥 Driven by AI.
-
----
-
-## 🛠 Developer Notes (Optional)
-
-If you are contributing technically:
-
-- Fork and clone the repo
-- Set up `.env` variables for API keys if needed (OpenWeather, Ollama)
-- Run local server with `npm run dev`
-- PRs welcome after  approval
-
----
+Brand colors and fonts are defined in `tailwind.config.ts` and `app/globals.css`
+(palette sampled from the source artwork). Fonts: **Poppins** (UI/headings) and
+**Anton** (impact numbers), loaded via `next/font`.
