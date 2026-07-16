@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { regionFromState, type RegionKey } from "@/lib/region";
 
-// Per-request normally (reads live geo headers); but for a fully static export
-// (STATIC_EXPORT=1, e.g. Netlify Drop) it is prerendered once and returns
-// { region: null } so the client falls back to the geo-IP service.
-export const dynamic = process.env.STATIC_EXPORT === "1" ? "force-static" : "force-dynamic";
+// Runs per-request so it can read live geo headers. Note: this makes the
+// route incompatible with a fully static export (STATIC_EXPORT=1); on static
+// hosts, drop this route and rely on the client-side geo-IP fallback.
+export const dynamic = "force-dynamic";
 
 /**
  * Resolves the visitor's region from the hosting/CDN geo headers.
