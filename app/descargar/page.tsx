@@ -25,6 +25,7 @@ export default function DownloadPage() {
             Esta versión se conecta al entorno de pruebas de Bluai. Está destinada
             a probar la app y sus funciones; no es la versión de producción.
           </p>
+          <p className="mt-3 text-sm text-white/70">Las membresías compradas en la web no se activan en este APK de pruebas.</p>
           <dl className="mt-7 grid grid-cols-2 gap-5 text-sm sm:grid-cols-3">
             <div><dt className="text-white/60">Versión</dt><dd className="mt-1 font-semibold">{ANDROID_TEST_BUILD.version}</dd></div>
             <div><dt className="text-white/60">Tamaño</dt><dd className="mt-1 font-semibold">{ANDROID_TEST_BUILD.size}</dd></div>
