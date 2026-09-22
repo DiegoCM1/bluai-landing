@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /**
- * App Store + Google Play download badges.
+ * App Store placeholder and Android test download.
  * Pass `only` to render a single device-appropriate badge (used in the mobile
- * navbar). Links are placeholders pending the real store URLs.
+ * navbar). The App Store link remains a placeholder.
  */
 export default function AppBadges({
   className = "",
@@ -34,20 +35,14 @@ export default function AppBadges({
         </a>
       )}
       {showGoogle && (
-        <a
-          href="#"
-          aria-label="Disponible en Google Play"
-          className="transition-transform hover:-translate-y-0.5"
+        <Link
+          href="/descargar"
+          aria-label="Descargar APK de pruebas de Bluai para Android"
+          className="flex min-h-10 w-[91px] shrink-0 flex-col justify-center rounded-md border border-white/40 bg-black px-2 text-white transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-cyan sm:w-[120px] lg:w-[129px]"
         >
-          <Image
-            src="/assets/store/googleplay.png"
-            alt="Get it on Google Play"
-            width={120}
-            height={40}
-            className="w-[91px] sm:w-[120px] lg:w-[129px]"
-            style={{ height: "auto" }}
-          />
-        </a>
+          <span className="text-[10px] leading-tight">APK de pruebas</span>
+          <span className="text-sm font-semibold leading-tight sm:text-base">Android</span>
+        </Link>
       )}
     </div>
   );

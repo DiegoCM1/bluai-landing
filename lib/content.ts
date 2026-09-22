@@ -145,6 +145,7 @@ export interface Plan {
   altBadge?: string;
   features: string[];
   cta: string;
+  href?: string;
   featured?: boolean;
 }
 
@@ -159,6 +160,7 @@ export const PLANS: Plan[] = [
       "Alertas SIAT-CT Oficiales (Personalizado a tu ubicación)",
     ],
     cta: "DESCARGA",
+    href: "/descargar",
   },
   {
     name: "Bluai Safe",
