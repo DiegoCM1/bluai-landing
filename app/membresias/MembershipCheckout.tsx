@@ -55,6 +55,28 @@ export default function MembershipCheckout({ initialPlan }: { initialPlan: "safe
     return () => { active = false; unsubscribe(); };
   }, []);
 
+  useEffect(() => {
+    if (!user || new URLSearchParams(window.location.search).get("checkout") !== "success") return;
+    let active = true;
+    let attempts = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    async function refresh() {
+      try {
+        const value: Subscription = await api("subscription", user);
+        if (!active) return;
+        setSubscription(value);
+        if (value.status === "active" && ["safe", "guard"].includes(value.plan_slug)) {
+          setMessage("Tu membresía está activa. Ya puedes volver a la app.");
+          return;
+        }
+      } catch { /* Keep the manual refresh available if webhook delivery is delayed. */ }
+      if (active && ++attempts < 15) timer = setTimeout(refresh, 2000);
+      else if (active) setMessage("La confirmación sigue pendiente. Puedes actualizar el estado más tarde; no necesitas pagar otra vez.");
+    }
+    void refresh();
+    return () => { active = false; clearTimeout(timer); };
+  }, [user]);
+
   async function run(action: () => Promise<void>) {
     setBusy(true);
     try { await action(); } catch (error) { setMessage(error instanceof Error ? error.message : "Ocurrió un error. Intenta nuevamente."); }
