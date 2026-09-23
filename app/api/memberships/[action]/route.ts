@@ -29,6 +29,14 @@ async function handle(request: NextRequest, context: { params: Promise<{ action:
   const authorization = request.headers.get("authorization") || "";
   if (route.auth && !/^Bearer \S+$/.test(authorization)) return fail("Inicia sesión para continuar.", 401);
   try {
+    const expectedMode = process.env.BLUAI_PAYMENT_MODE;
+    if (!["test", "live"].includes(expectedMode || "") || (process.env.VERCEL_ENV === "production" && expectedMode !== "live")) {
+      return fail("El entorno de pagos requiere configuración.", 503);
+    }
+    const configResponse = await fetch(`${origin.origin}/api/v1/payments/web/config`, { cache: "no-store", redirect: "error", signal: AbortSignal.timeout(10000) });
+    if (!configResponse.ok || (await configResponse.json()).mode !== expectedMode) {
+      return fail("La web y el servicio de pagos no corresponden al mismo entorno.", 503);
+    }
     let body: string | undefined;
     if (action === "checkout") {
       const input = await request.json();
