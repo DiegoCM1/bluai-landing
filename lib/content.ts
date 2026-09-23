@@ -145,6 +145,7 @@ export interface Plan {
   altBadge?: string;
   features: string[];
   cta: string;
+  href?: string;
   featured?: boolean;
 }
 
@@ -159,36 +160,33 @@ export const PLANS: Plan[] = [
       "Alertas SIAT-CT Oficiales (Personalizado a tu ubicación)",
     ],
     cta: "DESCARGA",
+    href: "/descargar",
   },
   {
     name: "Bluai Safe",
-    price: "$4.99",
-    priceNote: "Facturación mensual",
-    altPrice: "$4.99",
-    altNote: "Facturación anual",
-    altBadge: "Ahorro 17%",
+    price: "Consulta precios",
+    priceNote: "Planes mensuales y anuales",
     features: [
       "Todo el plan Gratuito",
       "Geolocalización de Familiares (en tiempo real)",
       "Botón de Pánico (alerta para tu red de apoyo)",
     ],
-    cta: "SUSCRÍBETE",
+    cta: "VER MEMBRESÍA",
+    href: "/membresias?plan=safe",
     featured: true,
   },
   {
     name: "Blu Guard",
-    price: "$4.99",
-    priceNote: "Facturación mensual",
-    altPrice: "$4.99",
-    altNote: "Facturación anual",
-    altBadge: "Ahorro 17%",
+    price: "Consulta precios",
+    priceNote: "Planes mensuales y anuales",
     features: [
       "Todo el plan Safe",
       "Gestión de Personal Crítico (Líderes y equipos)",
       "Dashboard Predictivo Centralizado (Gestión de múltiples sedes)",
       "Comunicación Ininterrumpida (Garantía de Continuidad Operativa)",
     ],
-    cta: "COTIZA  $",
+    cta: "VER MEMBRESÍA",
+    href: "/membresias?plan=guard",
   },
   {
     name: "Blu Edu",

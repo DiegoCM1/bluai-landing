@@ -88,7 +88,7 @@ export default function PriceCard({ plan }: { plan: Plan }) {
       </div>
 
       <a
-        href="#"
+        href={plan.href ?? "#"}
         className="cta-live block rounded-full bg-gradient-to-r from-brand via-brand-indigo to-brand py-3 text-center text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-brand/30 transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03]"
       >
         {plan.cta}
