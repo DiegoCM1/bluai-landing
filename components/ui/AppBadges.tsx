@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 /**
+
  * App Store + Google Play download badges.
  *
  * Store targets live here so shipping iOS is a one-line change. Android is
@@ -11,6 +12,7 @@ import Image from "next/image";
  * Apple's reviewers do open the marketing URL.
  *
  * When the listing goes live, set APP_STORE_URL to the constant below it.
+
  */
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.bluai.app";
 const APP_STORE_URL: string | null = null;
@@ -74,6 +76,7 @@ export default function AppBadges({
         ))}
 
       {showGoogle && (
+
         <a
           href={PLAY_STORE_URL}
           target="_blank"
@@ -90,6 +93,7 @@ export default function AppBadges({
             style={{ height: "auto" }}
           />
         </a>
+
       )}
     </div>
   );
