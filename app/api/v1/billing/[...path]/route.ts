@@ -3,13 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 const routes: Record<string, { method: string; path: string; auth: boolean }> = {
   capabilities: { method: "GET", path: "/billing/capabilities", auth: false },
+  payments: { method: "GET", path: "/billing/payments", auth: true },
+  invoices: { method: "POST", path: "/billing/invoices", auth: true },
   profile: { method: "GET", path: "/billing/profile", auth: true },
 };
 
 async function handle(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
   const action = path.join("/");
-  const route = action === "profile" && request.method === "PUT" ? { method: "PUT", path: "/billing/profile", auth: true } : routes[action];
+  const download = /^invoices\/[a-fA-F0-9]{24}\/(pdf|xml)$/.test(action);
+  const route = download ? { method: "GET", path: `/billing/${action}`, auth: true } : action === "profile" && request.method === "PUT" ? { method: "PUT", path: "/billing/profile", auth: true } : routes[action];
   const headers = { "Cache-Control": "no-store" };
   const fail = (message: string, status: number) => NextResponse.json({ error: message }, { status, headers });
   if (!route || route.method !== request.method) return fail("Solicitud no disponible.", 404);
@@ -39,6 +42,10 @@ async function handle(request: NextRequest, context: { params: Promise<{ path: s
     if (action === "profile" && request.method === "PUT") {
       body = JSON.stringify(await request.json());
     }
+    if (action === "invoices") {
+      const input = await request.json();
+      body = JSON.stringify({ payment_id: input.payment_id });
+    }
     if (action === "checkout") {
       const input = await request.json();
       if (!["safe", "guard"].includes(input.plan_slug) || !["monthly", "annual"].includes(input.billing_period) || typeof input.price_id !== "string") {
@@ -50,6 +57,13 @@ async function handle(request: NextRequest, context: { params: Promise<{ path: s
       method: route.method, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(25000),
       headers: { "Content-Type": "application/json", ...(route.auth ? { Authorization: authorization } : {}) }, body,
     });
+    if (download && upstream.ok) {
+      const format = path[2];
+      return new NextResponse(await upstream.arrayBuffer(), { headers: {
+        ...headers, "Content-Type": format === "pdf" ? "application/pdf" : "application/xml",
+        "Content-Disposition": `attachment; filename="bluai-prueba.${format}"`,
+      } });
+    }
     const data = await upstream.json();
     if (!upstream.ok) {
       const message = upstream.status === 422 ? "Revisa tus datos fiscales y su compatibilidad con el uso del CFDI." : upstream.status === 401 ? "Tu sesión venció. Vuelve a iniciar sesión."
@@ -67,4 +81,4 @@ async function handle(request: NextRequest, context: { params: Promise<{ path: s
   }
 }
 
-export { handle as GET, handle as PUT };
+export { handle as GET, handle as PUT, handle as POST };
