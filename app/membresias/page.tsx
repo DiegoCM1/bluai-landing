@@ -11,6 +11,7 @@ export default async function MembershipPage({ searchParams }: { searchParams: P
       <h1 className="text-4xl font-bold">Tu membresía Bluai</h1>
       <p>Usa la misma cuenta con la que entras a la app para vincular tu membresía.</p>
       <p className="text-sm text-white/70">Las membresías corresponden al servicio de producción. El APK de pruebas disponible en Descargas usa un entorno independiente y no recibe estas compras.</p>
+      <Link href="/facturacion" className="inline-block text-cyan-300 underline">Facturación de membresías</Link>
       <MembershipCheckout initialPlan={plan === "guard" ? "guard" : "safe"} />
       <p className="text-sm text-white/70"><Link href="/terminos" className="underline">Términos de servicio</Link> · <Link href="/aviso-de-privacidad" className="underline">Aviso de privacidad</Link></p>
     </div>
