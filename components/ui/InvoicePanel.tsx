@@ -39,7 +39,7 @@ export default function InvoicePanel() {
     if (!user) return;
     request<{ status: string; invoice_issuance_available: boolean; demo_invoicing_available: boolean }>(user, "capabilities").then(async caps => {
       if (!active) return;
-      const isDemo = caps.status === "local_test";
+      const isDemo = caps.status === "local_test" || caps.status === "facturapi_demo";
       setDemo(isDemo);
       setEnabled(isDemo ? caps.demo_invoicing_available : caps.invoice_issuance_available);
       if (!isDemo && caps.invoice_issuance_available) {

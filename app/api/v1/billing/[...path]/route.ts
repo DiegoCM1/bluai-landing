@@ -5,6 +5,7 @@ const routes: Record<string, { method: string; path: string; auth: boolean }> = 
   capabilities: { method: "GET", path: "/billing/capabilities", auth: false },
   payments: { method: "GET", path: "/billing/payments", auth: true },
   invoices: { method: "POST", path: "/billing/invoices", auth: true },
+  "demo-invoice": { method: "POST", path: "/billing/demo-invoice", auth: true },
   profile: { method: "GET", path: "/billing/profile", auth: true },
 };
 
@@ -30,7 +31,7 @@ async function handle(request: NextRequest, context: { params: Promise<{ path: s
   const authorization = request.headers.get("authorization") || "";
   if (route.auth && !/^Bearer \S+$/.test(authorization)) return fail("Inicia sesión para continuar.", 401);
   try {
-    const expectedMode = process.env.BLUAI_PAYMENT_MODE;
+    const expectedMode = process.env.BLUAI_PAYMENT_MODE || (process.env.VERCEL_ENV === "production" ? "live" : undefined);
     if (!["test", "live"].includes(expectedMode || "") || (process.env.VERCEL_ENV === "production" && expectedMode !== "live")) {
       return fail("El entorno de pagos requiere configuración.", 503);
     }
